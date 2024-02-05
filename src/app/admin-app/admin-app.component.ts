@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { FormDataService } from '../services/form-data-service';
+import { categoryMenu } from '../dto/menu-category.dto';
 
 @Component({
   selector: 'app-admin-app',
@@ -18,30 +18,38 @@ export class AdminAppComponent {
   menuCreateForm = this.formBuilder.group({
     categoryName: ['', Validators.required],
     categoryID: ['', Validators.required],
+    fkParentID: [null]
   });
 
-  formDataArray: any;
+  formDataArray: Array<categoryMenu> = [];
 
-  constructor(
-    private formBuilder: FormBuilder,
-    public formDataService: FormDataService
-  ) { }
+  constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit() {
-    this.formDataService.retrieveFormDataFromLocalStorage();
-    this.formDataArray = this.formDataService.getFormDataArray();
+    const storedData = localStorage.getItem('form-data');
+
+    if (storedData !== null) {
+      this.formDataArray = JSON.parse(storedData);
+    }
   }
 
   onSubmit() {
-    console.log(this.menuCreateForm.value);
+    console.log(this.formDataArray);
 
-    this.formDataService.addFormData(this.menuCreateForm.value);
-    this.formDataService.saveFormDataToLocalStorage();
+    const formData = this.menuCreateForm.value as categoryMenu;
 
-    this.menuCreateForm.reset();
-  }
+    const categoryIdExists = this.formDataArray.some(
+      (entry: categoryMenu) => entry.categoryID === formData.categoryID
+    );
 
-  get getForms() {
-    return this.menuCreateForm.controls;
+    if (categoryIdExists) {
+      window.alert(
+        `Category ID ${formData.categoryID} already exists. Entry again not possible.`
+      );
+    } else {
+      this.formDataArray.push(formData);
+      localStorage.setItem('form-data', JSON.stringify(this.formDataArray));
+      this.menuCreateForm.reset();
+    }
   }
 }
