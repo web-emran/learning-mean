@@ -4,7 +4,3 @@ export interface categoryMenu {
   fkParentID?: number | undefined | '';
   subCategory?: categoryMenu[];
 }
-// export interface childItems {
-//   id: number;
-//   subSections?: childItems[];
-// }
