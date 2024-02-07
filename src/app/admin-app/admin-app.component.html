@@ -1,83 +1,51 @@
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center" href="/">
+      <img src="/assets/logo.png" alt="Logo" width="50" />
+      EC APPS
+    </a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div
+      class="collapse navbar-collapse justify-content-end"
+      id="navbarSupportedContent"
+    >
+      <ul class="navbar-nav d-flex">
+        <li class="nav-item">
+          <a class="nav-link" href="admin-app">Admin</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" target="_blank" href="pages/home">Apps</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="admin-app/product-setup">Product setup</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
 <div class="app-layout">
   <div class="app-sidebar-menu bg-body-secondary">
     <h3 class="p-4 pb-0 mb-0">Our Menus</h3>
     <ul class="list-group p-4">
-      <li class="list-group-item">
+      <li class="list-group-item mb-2">
         <a href="/">Menu setup</a>
       </li>
       <li class="list-group-item">
-        <a href="/">Product setup</a>
+        <a href="admin-app/product-setup">Product setup</a>
       </li>
     </ul>
   </div>
   <div class="app-main-body">
-    <div class="card px-4 py-5">
-      <form [formGroup]="menuCreateForm" (ngSubmit)="onSubmit()">
-        <div class="form-group mb-3">
-          <label class="form-label">Category Name</label>
-          <input
-            type="text"
-            class="form-control"
-            formControlName="categoryName"
-            [class.is-invalid]="
-              menuCreateForm.get('categoryName')!.invalid &&
-              menuCreateForm.get('categoryName')!.touched
-            "
-          />
-          @if (menuCreateForm.get('categoryName')!.invalid &&
-          menuCreateForm.get('categoryName')!.touched) { @if
-          (menuCreateForm.get('categoryName')!.hasError('required')) {
-          <div class="text-danger">Category Name is required</div>
-          } }
-        </div>
-        <div class="form-group mb-3">
-          <label class="form-label">Category ID</label>
-          <input
-            type="number"
-            class="form-control"
-            formControlName="categoryID"
-            [class.is-invalid]="
-              menuCreateForm.get('categoryID')!.invalid &&
-              menuCreateForm.get('categoryID')!.touched
-            "
-          />
-          @if (menuCreateForm.get('categoryID')!.invalid &&
-          menuCreateForm.get('categoryID')!.touched) { @if
-          (menuCreateForm.get('categoryID')!.hasError('required')) {
-          <div class="text-danger">Category ID is required</div>
-          } }
-        </div>
-
-        @if(formDataArray.length > 0){
-        <div class="form-group mb-3">
-          <label class="form-label">Category List</label>
-          <select
-            class="form-select"
-            formControlName="fkParentID"
-            [class.is-invalid]="
-              menuCreateForm.get('fkParentID')!.invalid &&
-              menuCreateForm.get('fkParentID')!.touched
-            "
-          >
-            @for (menuList of formDataArray; track menuList.categoryID) {
-            <option [value]="menuList.categoryID">
-              {{ menuList.categoryName }}
-            </option>
-            }
-          </select>
-        </div>
-        }
-        <div class="mt-4 form-group d-flex justify-content-center">
-          <button type="button" class="btn btn-danger">Cancel</button>
-          <button
-            type="submit"
-            class="btn btn-primary ms-3"
-            [disabled]="menuCreateForm.invalid"
-          >
-            Submit
-          </button>
-        </div>
-      </form>
-    </div>
+    <router-outlet></router-outlet>
   </div>
 </div>
