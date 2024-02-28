@@ -1,0 +1,78 @@
+<div class="card px-4 py-5">
+  <div class="app-sub-head py-3">
+    <div class="d-flex justify-content-between">
+      <div class="left">
+        <p>Showing Result</p>
+      </div>
+      <button
+        type="button"
+        class="btn btn-primary"
+        (click)="addEditProductModal(null)"
+      >
+        + Add Product
+      </button>
+    </div>
+  </div>
+  <table class="table border">
+    <thead>
+      <tr>
+        <th scope="col">#ID</th>
+        <th scope="col">Product Name</th>
+        <th scope="col">Description</th>
+        <th scope="col">Price</th>
+        <th scope="col">Image</th>
+        <th scope="col">Discount</th>
+        <th scope="col">Weight</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let product of productList">
+        <td>{{ product.productId }}</td>
+        <td>{{ product.productTitle }}</td>
+        <td>{{ product.productDescription }}</td>
+        <td>{{ product.productPrice }}</td>
+        <td>Images</td>
+        <td>{{ product.productDiscount }}</td>
+        <td>{{ product.productWeight }}</td>
+        <td>
+          <div class="btn-group" dropdown>
+            <button
+              id="button-basic"
+              dropdownToggle
+              type="button"
+              class="btn btn-primary dropdown-toggle"
+              aria-controls="dropdown-basic"
+            >
+              <span class="caret"></span>
+            </button>
+            <ul
+              id="dropdown-basic"
+              *dropdownMenu
+              class="dropdown-menu dropdown-menu-right"
+              role="menu"
+              aria-labelledby="button-basic"
+            >
+              <li role="menuitem">
+                <a
+                  class="dropdown-item"
+                  href="javascript:void(0)"
+                  (click)="addEditProductModal(product)"
+                  >Edit</a
+                >
+              </li>
+              <li role="menuitem">
+                <a
+                  class="dropdown-item"
+                  href="javascript:void(0)"
+                  (click)="deleteProduct(productList.indexOf(product))"
+                  >Delete</a
+                >
+              </li>
+            </ul>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

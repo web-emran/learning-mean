@@ -27,14 +27,17 @@ export class ProductSetupComponent {
   });
 
   constructor(private fb: FormBuilder) {
-    const storedIdCounter = localStorage.getItem('idCounter');
-    this.idCounter = storedIdCounter ? parseInt(storedIdCounter) : 1;
+    if (typeof localStorage !== 'undefined') {
+      const storedIdCounter = localStorage.getItem('idCounter');
+      this.idCounter = storedIdCounter ? parseInt(storedIdCounter) : 1;
+    } else {
+      this.idCounter = 1;
+    }
   }
 
   ngOnInit() {
     if (typeof localStorage !== 'undefined') {
       const storeData = localStorage.getItem('form-data');
-
       if (storeData !== null) {
         this.formDataArray = JSON.parse(storeData);
       }
@@ -47,11 +50,19 @@ export class ProductSetupComponent {
     productFormData.productId = this.idCounter++;
 
     this.productFormArray.push(productFormData);
+
     if (typeof localStorage !== 'undefined') {
       localStorage.setItem(
         'product-form-data',
         JSON.stringify(this.productFormArray)
       );
+    } else if (typeof sessionStorage !== 'undefined') {
+      sessionStorage.setItem(
+        'product-form-data',
+        JSON.stringify(this.productFormArray)
+      );
+    } else {
+      console.log('Web Storage is not supported in this environment.');
     }
 
     this.productForm.reset();
